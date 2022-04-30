@@ -1,26 +1,5 @@
-/****************************************************************************************** 
- *	Chili DirectX Framework Version 16.07.20											  *	
- *	Game.cpp																			  *
- *	Copyright 2016 PlanetChili.net <http://www.planetchili.net>							  *
- *																						  *
- *	This file is part of The Chili DirectX Framework.									  *
- *																						  *
- *	The Chili DirectX Framework is free software: you can redistribute it and/or modify	  *
- *	it under the terms of the GNU General Public License as published by				  *
- *	the Free Software Foundation, either version 3 of the License, or					  *
- *	(at your option) any later version.													  *
- *																						  *
- *	The Chili DirectX Framework is distributed in the hope that it will be useful,		  *
- *	but WITHOUT ANY WARRANTY; without even the implied warranty of						  *
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the						  *
- *	GNU General Public License for more details.										  *
- *																						  *
- *	You should have received a copy of the GNU General Public License					  *
- *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
- ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
-#include <iostream>
 
 using namespace std;
 
@@ -49,7 +28,6 @@ void Game::UpdateModel()
 		else {
 			x_mobile = 10;
 		}
-		
 	}
 
 	if (wnd.kbd.KeyIsPressed(VK_LEFT))
@@ -81,6 +59,9 @@ void Game::UpdateModel()
 			y_mobile = 10;
 		}
 	}
+
+	x_mobile = ClampScreenX(x_mobile);
+	y_mobile = ClampScreenY(y_mobile);
 
 	colliding =
 		OverlapTest(x_fixed0, y_fixed0, x_mobile, y_mobile) ||
@@ -171,4 +152,68 @@ void Game::DrawEnemy(int x, int y, int r, int g, int b)
 	gfx.PutPixel(5 + x, 3 + y, r, g, b);
 	gfx.PutPixel(4 + x, 5 + y, r, g, b);
 	gfx.PutPixel(3 + x, 5 + y, r, g, b);
+}
+
+void Game::ContainBox()
+{
+	const int left = x_mobile - 10;
+	const int right = x_mobile + 10;
+	const int top = y_mobile - 10;
+	const int bottom = y_mobile + 10;
+
+	if (left < 0)
+	{
+		x_mobile = 5;
+	}
+	else if (right >= gfx.ScreenWidth)
+	{
+		x_mobile = gfx.ScreenWidth - 6;
+	}
+
+	if (top < 0)
+	{
+		y_mobile = 5;
+	}
+	else if (bottom >= gfx.ScreenHeight)
+	{
+		y_mobile = gfx.ScreenHeight - 6;
+	}
+}
+
+int Game::ClampScreenX(int x)
+{
+	const int left = x - 5;
+	const int right = x + 5;
+
+	if (left < 0)
+	{
+		return 5;
+	}
+	else if (right >= gfx.ScreenWidth)
+	{
+		return gfx.ScreenWidth - 6;
+	}
+	else
+	{
+		return x;
+	}
+}
+
+int Game::ClampScreenY(int y)
+{
+	const int top = y - 5;
+	const int bottom = y + 5;
+
+	if (top < 0)
+	{
+		return 5;
+	}
+	else if (bottom >= gfx.ScreenHeight)
+	{
+		return gfx.ScreenHeight - 6;
+	}
+	else
+	{
+		return y;
+	}
 }
