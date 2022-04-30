@@ -38,64 +38,98 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-}
+	/***
+	* Errata:
+	* In Part 3 when we make the gb variable a member variable,
+	* it will maintain its value from frame to frame.
+	* So if we don't reset it every frame, then the first time we press CTRL and set it to 0,
+	* it will forever after be stuck at 0, which is probably not desired behavior. ;)
+	***/
 
-void Game::ComposeFrame()
-{
-	for (int m = 0; m < 200; m++) {
-		for (int n = 0; n < 10; n++) {
-			gfx.PutPixel(200+n, 100+m, 255, 255, 255);
-		}
-	}
-
-	for (int m = 0; m < 80; m++) {
-		for (int n = 0; n < 10; n++) {
-			gfx.PutPixel(200 + m, 200 + n, 255, 255, 255);
-		}
-	}
-
-	for (int m = 0; m < 200; m++) {
-		for (int n = 0; n < 10; n++) {
-			gfx.PutPixel(280 + n, 100 + m, 255, 255, 255);
-		}
-	}
-
-	for (int m = 0; m < 200; m++) {
-		for (int n = 0; n < 10; n++) {
-			gfx.PutPixel(320 + n, 100 + m, 255, 255, 255);
-		}
-	}
-
-	int x = 400;
-	int y = 300;
+	gb = 255;	//reset gb every frame
 
 	if (wnd.kbd.KeyIsPressed(VK_RIGHT))
 	{
-		x = x + 100;
+		if (inhibitRight)
+		{
+		}
+		else
+		{
+			vx = vx + 1;
+			inhibitRight = true;
+		}
+
+	}
+	else
+	{
+		inhibitRight = false;
 	}
 
 	if (wnd.kbd.KeyIsPressed(VK_LEFT))
 	{
-		x = x - 100;
+		if (inhibitLeft)
+		{
+		}
+		else
+		{
+			vx = vx - 1;
+			inhibitLeft = true;
+		}
+
+	}
+	else
+	{
+		inhibitLeft = false;
 	}
 
 	if (wnd.kbd.KeyIsPressed(VK_DOWN))
 	{
-		y = y + 100;
+		if (inhibitDown)
+		{
+		}
+		else
+		{
+			vy = vy + 1;
+			inhibitDown = true;
+		}
+
+	}
+	else
+	{
+		inhibitDown = false;
 	}
 
 	if (wnd.kbd.KeyIsPressed(VK_UP))
 	{
-		y = y - 100;
+		if (inhibitUp)
+		{
+		}
+		else
+		{
+			vy = vy - 1;
+			inhibitUp = true;
+		}
+
+	}
+	else
+	{
+		inhibitUp = false;
 	}
 
-	int gb = 255;
+	x = x + vx;
+	y = y + vy;
 
 	if (wnd.kbd.KeyIsPressed(VK_CONTROL))
 	{
 		gb = 0;
 	}
-	if (wnd.kbd.KeyIsPressed(VK_SHIFT))
+
+	shapeIsChanged = wnd.kbd.KeyIsPressed(VK_SHIFT);
+}
+
+void Game::ComposeFrame()
+{
+	if (shapeIsChanged)
 	{
 		gfx.PutPixel(-5 + x, -5 + y, 255, gb, gb);
 		gfx.PutPixel(-5 + x, -4 + y, 255, gb, gb);
@@ -133,5 +167,4 @@ void Game::ComposeFrame()
 		gfx.PutPixel(x, 4 + y, 255, gb, gb);
 		gfx.PutPixel(x, 5 + y, 255, gb, gb);
 	}
-
 }
