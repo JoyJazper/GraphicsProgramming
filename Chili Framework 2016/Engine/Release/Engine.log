@@ -1,15 +1,7 @@
-﻿  compilation header save succeeded; see D:\C++ projects\GraphicsProgramming\GraphicsProgramming\Chili Framework 2016\Engine\FramebufferPS.shh
-  compilation header save succeeded; see D:\C++ projects\GraphicsProgramming\GraphicsProgramming\Chili Framework 2016\Engine\FramebufferVS.shh
-  DXErr.cpp
-  Game.cpp
-  Graphics.cpp
-  Keyboard.cpp
-  Main.cpp
-  MainWindow.cpp
-  Mouse.cpp
+﻿  Game.cpp
   Generating code
-  561 of 565 functions (99.3%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+  481 of 799 functions (60.2%) were compiled, the rest were copied from previous compilation.
+    232 functions were new in current compilation
+    16 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Engine.vcxproj -> D:\C++ projects\GraphicsProgramming\GraphicsProgramming\Chili Framework 2016\Release\Engine.exe
